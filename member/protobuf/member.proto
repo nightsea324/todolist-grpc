@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package member;
+
+// 服務
+service member {
+  
+  // Register - 註冊
+  rpc Register(RegisterRequest)returns(RegisterResponse){}
+
+  // SignIn - 登入
+  rpc SignIn(SignInRequest)returns(SignInResponse){}
+}
+
+// Requests -
+
+// RegisterRequest -
+message RegisterRequest{
+
+  // Name - 會員名稱
+  string Name = 1;
+
+  // Password - 會員密碼
+  string Password = 2;
+}
+
+// SignInRequest -
+message SignInRequest{
+
+  // Name - 會員名稱
+  string Name = 1;
+
+  // Password - 會員密碼
+  string Password = 2;
+}
+
+// Responses -
+
+// RegisterResponse - 
+message RegisterResponse{
+}
+
+// SignInResponse - 
+message SignInResponse{
+
+  // token - 權杖
+  string token = 1 ;
+
+  // tokenLife - 權杖存活時間
+  int64 tokenLife = 2 ;
+}
