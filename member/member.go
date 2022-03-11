@@ -1,12 +1,13 @@
-package main
+package member
 
 import (
 	"context"
 	"fmt"
 	"log"
-	"main/mongo"
-	pb "main/protobuf/member"
-	"main/srv"
+	"main/member/infra/mongo"
+	"main/member/infra/redis"
+	pb "main/member/protobuf"
+	"main/member/srv"
 	"net"
 
 	"google.golang.org/grpc"
@@ -15,42 +16,47 @@ import (
 type Server struct {
 }
 
+// Register - 註冊會員
 func (*Server) Register(ctx context.Context, req *pb.RegisterRequest) (*pb.RegisterResponse, error) {
 
 	name := req.GetName()
 	password := req.GetPassword()
-	var status string
-	var msg string
 
-	msg, err := srv.Register(name, password)
-	if err != nil {
-		status = "failed"
-	} else {
-		status = "ok"
-		msg = "註冊成功"
-	}
+	res := &pb.RegisterResponse{}
 
-	res := &pb.RegisterResponse{
-		Status: status,
-		Msg:    msg,
+	if err := srv.Register(ctx, name, password); err != nil {
+		return res, err
 	}
 
 	return res, nil
 }
 
+// SignIn - 登入會員
 func (*Server) SignIn(ctx context.Context, req *pb.SignInRequest) (*pb.SignInResponse, error) {
 
-	res := &pb.SignInResponse{
-		Status: "ok",
-		Msg:    "註冊成功",
+	name := req.GetName()
+	password := req.GetPassword()
+
+	res := &pb.SignInResponse{}
+	token, tokenLife, err := srv.SignIn(ctx, name, password)
+	if err != nil {
+		return res, err
 	}
 
-	return res, nil
+	return &pb.SignInResponse{
+		Token:     token,
+		TokenLife: tokenLife}, nil
 }
 
-func main() {
-	fmt.Println("starting gRPC server...")
+// init - 初始化
+func init() {
 	mongo.Init()
+	redis.Init()
+}
+
+// MemberServer - 會員服務
+func MemberServer() {
+	fmt.Println("starting gRPC member server...")
 
 	lis, err := net.Listen("tcp", "localhost:50051")
 	if err != nil {

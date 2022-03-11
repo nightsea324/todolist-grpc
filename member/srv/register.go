@@ -1,9 +1,10 @@
 package srv
 
 import (
+	"context"
 	"errors"
-	"main/model"
-	"main/mongo/member"
+	member "main/member/infra/mongo"
+	"main/member/model"
 	"time"
 
 	"golang.org/x/crypto/bcrypt"
@@ -11,20 +12,18 @@ import (
 )
 
 // Register - 會員註冊
-func Register(name, password string) (string, error) {
-
-	// 接收資料
+func Register(ctx context.Context, name, password string) error {
 
 	// 確認名稱是否重複
-	_, err := member.GetByName(name)
+	_, err := member.GetByName(ctx, name)
 	if err == nil {
-		return "註冊失敗，名稱重複", errors.New("錯誤")
+		return errors.New("註冊失敗，名稱重複")
 	}
 
 	// 加密密碼
 	hashPassword, err := hash(password)
 	if err != nil {
-		return "註冊失敗，密碼加密錯誤", err
+		return errors.New("註冊失敗，密碼加密錯誤")
 	}
 
 	// 寫入model
@@ -36,11 +35,11 @@ func Register(name, password string) (string, error) {
 	}
 
 	// 寫入資料庫
-	if err := member.Create(data); err != nil {
-		return "註冊失敗，寫入資料庫錯誤", err
+	if err := member.Create(ctx, data); err != nil {
+		return errors.New("註冊失敗，寫入資料庫錯誤")
 	}
 
-	return "註冊成功", nil
+	return nil
 }
 
 // hash -  加密

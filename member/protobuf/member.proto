@@ -38,20 +38,14 @@ message SignInRequest{
 
 // RegisterResponse - 
 message RegisterResponse{
-
-  // status - 狀態
-  string status = 1;
-  
-  // msg - 訊息
-  string msg = 2;
 }
 
 // SignInResponse - 
 message SignInResponse{
 
-  // status - 狀態
-  string status = 1;
-  
-  // msg - 訊息
-  string msg = 2;
+  // token - 權杖
+  string token = 1 ;
+
+  // tokenLife - 權杖存活時間
+  int64 tokenLife = 2 ;
 }

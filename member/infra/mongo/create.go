@@ -1,18 +1,15 @@
-package member
+package mongo
 
 import (
 	"context"
-	"main/model"
-	"main/mongo"
+	"main/member/model"
 )
 
 // Create - 新增會員
-func Create(member model.Member) error {
-
-	var ctx = context.TODO()
+func Create(ctx context.Context, member model.Member) error {
 
 	// 連線至collection
-	collection := mongo.Client.Database("todoList").Collection("member")
+	collection := Client.Database("todoList").Collection("member")
 
 	// 寫入資料庫
 	_, err := collection.InsertOne(ctx, member)
