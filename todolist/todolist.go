@@ -19,6 +19,7 @@ type Server struct {
 // Create - 新增事項
 func (*Server) Create(ctx context.Context, req *pb.CreateRequest) (*pb.CreateResponse, error) {
 
+	fmt.Println("Create...")
 	name := req.GetName()
 	memberId := req.GetMemberId()
 
@@ -34,6 +35,7 @@ func (*Server) Create(ctx context.Context, req *pb.CreateRequest) (*pb.CreateRes
 // Delete - 刪除事項
 func (*Server) Delete(ctx context.Context, req *pb.DeleteRequest) (*pb.DeleteResponse, error) {
 
+	fmt.Println("Delete...")
 	id := req.GetID()
 	memberId := req.GetMemberId()
 
@@ -49,6 +51,7 @@ func (*Server) Delete(ctx context.Context, req *pb.DeleteRequest) (*pb.DeleteRes
 // Get - 取得事項
 func (*Server) Get(ctx context.Context, req *pb.GetRequest) (*pb.GetResponse, error) {
 
+	fmt.Println("Get...")
 	memberId := req.GetMemberId()
 
 	res := &pb.GetResponse{}
@@ -58,13 +61,14 @@ func (*Server) Get(ctx context.Context, req *pb.GetRequest) (*pb.GetResponse, er
 	}
 
 	return &pb.GetResponse{
-		TodoList: todolist.ConverTodoListToPb(results),
+		TodoList: todolist.ConvertTodoListToPb(results),
 	}, nil
 }
 
 // Update - 完成事項
 func (*Server) Update(ctx context.Context, req *pb.UpdateRequest) (*pb.UpdateResponse, error) {
 
+	fmt.Println("Update...")
 	id := req.GetID()
 	memberId := req.GetMemberId()
 
@@ -86,7 +90,7 @@ func init() {
 func TodoServer() {
 	fmt.Println("starting gRPC todo server...")
 
-	lis, err := net.Listen("tcp", "localhost:50051")
+	lis, err := net.Listen("tcp", "localhost:50052")
 	if err != nil {
 		log.Fatalf("failed to listen: %v \n", err)
 	}

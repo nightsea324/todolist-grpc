@@ -1,0 +1,99 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+package todolist;
+
+// todo - todo服務
+service todo {
+  
+  // Create - 新增事項
+  rpc Create(CreateRequest)returns(CreateResponse){}    
+
+  // Delete - 刪除事項
+  rpc Delete(DeleteRequest)returns(DeleteResponse){}
+ 
+  // Get - 取得事項
+  rpc Get(GetRequest)returns(GetResponse){}
+ 
+  // Update - 完成事項
+  rpc Update(UpdateRequest)returns(UpdateResponse){}
+
+}
+
+// todolist - 待辦事項
+message todolist{
+
+  // ID - 事項ID
+  string ID = 1;
+
+  // Name - 事項名稱
+  string Name = 2;
+
+  // Status - 事項狀態
+  bool Status = 3;
+
+  // MemberId - 會員ID
+  string MemberId = 4;
+
+  // CreatedAt - 建立時間
+  google.protobuf.Timestamp CreatedAt = 5; 
+}
+
+// Requests -
+
+// CreateRequest -
+message CreateRequest{
+
+  // Name - 事項名稱
+  string Name = 1;
+
+  // MemberId - 會員ID
+  string MemberId = 2;
+}
+
+// DeleteRequest -
+message DeleteRequest{
+
+  // ID - 事項ID
+  string ID = 1;
+
+  // MemberId - 會員ID
+  string MemberId = 2;
+}
+
+// GetRequest -
+message GetRequest{
+
+  // MemberId - 會員ID
+  string MemberId = 1;
+}
+
+// UpdateRequest -
+message UpdateRequest{
+
+  // ID - 事項ID
+  string ID = 1;
+
+  // MemberId - 會員ID
+  string MemberId = 2;
+}
+
+// Responses -
+
+// CreateResponse - 
+message CreateResponse{
+}
+
+// DeleteResponse - 
+message DeleteResponse{
+}
+
+// GetResponse - 
+message GetResponse{
+  repeated todolist todoList = 1;
+}
+
+// UpdateResponse - 
+message UpdateResponse{
+}

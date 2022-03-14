@@ -7,8 +7,8 @@ import (
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
-// ConverTodoListToPb - 轉換model至pb
-func ConverTodoListToPb(in []*model.Todolist) []*Todolist {
+// ConvertTodoListToPb - 轉換model至pb
+func ConvertTodoListToPb(in []*model.Todolist) []*Todolist {
 	result := make([]*Todolist, len(in))
 	if len(in) == 0 {
 		return result

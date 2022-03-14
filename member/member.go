@@ -19,6 +19,7 @@ type Server struct {
 // Register - 註冊會員
 func (*Server) Register(ctx context.Context, req *pb.RegisterRequest) (*pb.RegisterResponse, error) {
 
+	fmt.Println("Register...")
 	name := req.GetName()
 	password := req.GetPassword()
 
@@ -34,6 +35,7 @@ func (*Server) Register(ctx context.Context, req *pb.RegisterRequest) (*pb.Regis
 // SignIn - 登入會員
 func (*Server) SignIn(ctx context.Context, req *pb.SignInRequest) (*pb.SignInResponse, error) {
 
+	fmt.Println("SignIn...")
 	name := req.GetName()
 	password := req.GetPassword()
 
